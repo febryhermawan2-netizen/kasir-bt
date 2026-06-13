@@ -82,10 +82,7 @@
             <div class="card border-start border-success border-4">
                 <div class="card-body">
                     <h5 class="card-title mb-3 fw-bold text-success">🛒 Keranjang Belanja</h5>
-                    
-                    <div class="col-12 mb-3">
-                        <button type="button" class="btn btn-dark btn-sm w-100 fw-bold py-2 shadow-sm" onclick="bukaScanner('kasir')">📷 SCAN BARCODE PRODUK</button>
-                    </div>
+                    <div class="col-12 mb-3"><button type="button" class="btn btn-dark btn-sm w-100 fw-bold py-2 shadow-sm" onclick="bukaScanner('kasir')">📷 SCAN BARCODE PRODUK</button></div>
 
                     <form id="formKasir" onsubmit="tambahKeKeranjang(event)" class="row g-2 mb-3">
                         <div class="col-7"><input type="text" id="inputPencarianKasir" class="form-control form-control-sm" list="listBarangKasir" placeholder="Ketik/Pilih menu..." autocomplete="off" required><datalist id="listBarangKasir"></datalist></div>
@@ -200,13 +197,13 @@
             <div class="col-12 mt-2"><label class="small fw-bold text-muted">Pesan Bawah 1</label><input type="text" id="inputPesanBawah1" class="form-control form-control-sm" required></div>
             <div class="col-12"><label class="small fw-bold text-muted">Pesan Bawah 2</label><input type="text" id="inputPesanBawah2" class="form-control form-control-sm"></div>
             <div class="col-12"><label class="small fw-bold text-muted">Pesan Bawah 3</label><input type="text" id="inputPesanBawah3" class="form-control form-control-sm"></div>
-            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">📱 Sosial Media (Cetak Rata Kiri)</label></div>
+            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">📱 Sosial Media</label></div>
             <div class="col-12"><div class="input-group input-group-sm mb-2"><span class="input-group-text bg-light fw-bold">📸 IG</span><input type="text" id="inputIg" class="form-control"></div></div>
             <div class="col-12"><div class="input-group input-group-sm mb-2"><span class="input-group-text bg-light fw-bold">📘 FB</span><input type="text" id="inputFb" class="form-control"></div></div>
             <div class="col-12"><div class="input-group input-group-sm mb-2"><span class="input-group-text bg-light fw-bold">🎵 TikTok</span><input type="text" id="inputTiktok" class="form-control"></div></div>
-            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-success">📱 Upload Gambar QRIS Toko</label><input type="file" id="inputQrisToko" class="form-control form-control-sm" accept="image/*"></div>
-            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">🖼️ Upload Logo Layar Aplikasi</label><input type="file" id="inputLogoAplikasi" class="form-control form-control-sm" accept="image/*"></div>
-            <div class="col-12 mt-2"><label class="small fw-bold text-danger">🖨️ Upload Logo Kertas Printer</label><input type="file" id="inputLogoStruk" class="form-control form-control-sm" accept="image/*"></div>
+            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-success">📱 Upload Gambar QRIS</label><input type="file" id="inputQrisToko" class="form-control form-control-sm" accept="image/*"></div>
+            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">🖼️ Upload Logo Aplikasi</label><input type="file" id="inputLogoAplikasi" class="form-control form-control-sm" accept="image/*"></div>
+            <div class="col-12 mt-2"><label class="small fw-bold text-danger">🖨️ Upload Logo Struk Printer</label><input type="file" id="inputLogoStruk" class="form-control form-control-sm" accept="image/*"></div>
             <div class="col-12 mt-3"><button type="submit" class="btn btn-primary btn-sm w-100 fw-bold py-2">Simpan Profil Toko</button></div>
         </form>
         <h6 class="fw-bold text-secondary border-bottom pb-2 mt-4">Buat Akun Kasir Baru:</h6>
@@ -245,7 +242,6 @@
     let html5QrcodeScanner = null; let scannerMode = ''; 
     let lastScannedBarcode = ""; let lastScannedTime = 0;
 
-    // SVG Sosmed
     const svgIG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.4 5.6 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.6 18.4 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 0 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z'/></svg>");
     const svgFB = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-1.1 0-2 .9-2 2v1h4l-1 3h-3v6.8c4.56-.93 8-4.96 8-9.8z'/></svg>");
     const svgTiktok = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-1.13 4.45-2.92 5.8-1.78 1.36-4.14 1.84-6.32 1.29-2.18-.53-4.05-2.11-4.88-4.18-.84-2.07-.63-4.5.54-6.38 1.18-1.89 3.23-3.1 5.4-3.41 1.05-.15 2.13-.07 3.16.14V13.6c-.73-.24-1.52-.3-2.28-.15-1.07.2-2.06.84-2.6 1.77-.55.93-.66 2.1-.28 3.1.37.93 1.21 1.63 2.23 1.85 1.02.21 2.1.01 2.93-.57.83-.58 1.36-1.5 1.45-2.51.13-3.53.07-7.07.08-10.61.02-2.16-.03-4.32.02-6.48z'/></svg>");
@@ -253,46 +249,103 @@
     function formatRupiah(angka) { return 'Rp ' + angka.toLocaleString('id-ID'); }
 
     // ------------------------------------
-    // 2. BLUETOOTH API (DIPERBAIKI UNTUK PWA)
+    // 2. IMAGE COMPRESSOR & PENGATURAN TOKO (BUG FIX QUOTA LOCALSTORAGE)
+    // ------------------------------------
+    // Memeras foto ukuran besar dari HP menjadi super kecil agar tidak macet saat disimpan
+    function bacaFileGambar(file) { 
+        return new Promise((resolve) => { 
+            const reader = new FileReader(); 
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width; let h = img.height;
+                    // Auto Resize maksimal lebar 500px
+                    if (w > 500) { h = Math.round(h * (500 / w)); w = 500; }
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = "white"; ctx.fillRect(0, 0, w, h);
+                    ctx.drawImage(img, 0, 0, w, h);
+                    // Compress menjadi JPEG kualitas 60%
+                    resolve(canvas.toDataURL('image/jpeg', 0.6)); 
+                };
+                img.src = e.target.result;
+            }; 
+            reader.readAsDataURL(file); 
+        }); 
+    }
+
+    window.simpanPengaturanToko = async function(e) {
+        e.preventDefault();
+        configToko.nama = document.getElementById('inputNamaToko').value.trim(); 
+        configToko.alamat = document.getElementById('inputAlamatToko').value.trim(); 
+        configToko.telepon = document.getElementById('inputTeleponToko').value.trim();
+        configToko.pesanBawah = document.getElementById('inputPesanBawah1').value.trim(); 
+        configToko.pesanBawah2 = document.getElementById('inputPesanBawah2').value.trim(); 
+        configToko.pesanBawah3 = document.getElementById('inputPesanBawah3').value.trim();
+        configToko.ig = document.getElementById('inputIg').value.trim(); 
+        configToko.fb = document.getElementById('inputFb').value.trim(); 
+        configToko.tiktok = document.getElementById('inputTiktok').value.trim();
+        
+        const fileAplikasi = document.getElementById('inputLogoAplikasi').files[0]; 
+        const fileStruk = document.getElementById('inputLogoStruk').files[0]; 
+        const fileQris = document.getElementById('inputQrisToko').files[0];
+        
+        if (fileAplikasi) configToko.logoAplikasi = await bacaFileGambar(fileAplikasi); 
+        if (fileStruk) configToko.logoStruk = await bacaFileGambar(fileStruk); 
+        if (fileQris) configToko.qris = await bacaFileGambar(fileQris);
+        
+        try {
+            localStorage.setItem('lokalcaffee_config', JSON.stringify(configToko)); 
+            terapkanConfigToko(); 
+            alert("Pengaturan Toko Berhasil Diperbarui!");
+            // Menutup pop-up otomatis
+            let modal = bootstrap.Modal.getInstance(document.getElementById('modalAturAkun'));
+            if(modal) modal.hide();
+        } catch (error) {
+            alert("Gagal menyimpan! Memori HP penuh. Pastikan Anda tidak mengupload gambar secara berlebihan.");
+        }
+    };
+
+    function terapkanConfigToko() {
+        document.getElementById('loginTitle').innerText = configToko.nama; document.title = "kasir"; 
+        document.getElementById('inputNamaToko').value = configToko.nama; document.getElementById('inputAlamatToko').value = configToko.alamat || ""; document.getElementById('inputTeleponToko').value = configToko.telepon || "";
+        document.getElementById('inputPesanBawah1').value = configToko.pesanBawah || ""; document.getElementById('inputPesanBawah2').value = configToko.pesanBawah2 || ""; document.getElementById('inputPesanBawah3').value = configToko.pesanBawah3 || "";
+        document.getElementById('inputIg').value = configToko.ig || ""; document.getElementById('inputFb').value = configToko.fb || ""; document.getElementById('inputTiktok').value = configToko.tiktok || "";
+        
+        const headerLogo = configToko.logoAplikasi ? `<img src="${configToko.logoAplikasi}" style="height:30px; width:30px; border-radius:50%; object-fit:cover; margin-right:10px;">` : `☕ `;
+        document.getElementById('headerTitle').innerHTML = headerLogo + configToko.nama;
+        const loginLogoEl = document.getElementById('loginLogo'); if (configToko.logoAplikasi) { loginLogoEl.src = configToko.logoAplikasi; loginLogoEl.classList.remove('d-none'); } else { loginLogoEl.classList.add('d-none'); }
+        
+        const qrisContainer = document.getElementById('qrisImageContainer'); 
+        if(configToko.qris) { qrisContainer.innerHTML = `<img src="${configToko.qris}" class="qris-img-render" alt="QRIS">`; } 
+        else { qrisContainer.innerHTML = `<p class="small text-danger my-2">⚠️ Gambar QRIS Belum Diatur</p>`; }
+    }
+
+    // ------------------------------------
+    // 3. BLUETOOTH API (DIPERBAIKI UNTUK PWA)
     // ------------------------------------
     window.hubungkanPrinter = async function() {
-        if (!navigator.bluetooth) {
-            alert("Sistem PWA atau browser ini memblokir akses Web Bluetooth.");
-            return;
-        }
+        if (!navigator.bluetooth) { alert("Sistem PWA atau browser ini memblokir akses Web Bluetooth."); return; }
         try {
             let btn = document.getElementById('btnHubungkanBluetooth');
             if (btn) btn.innerText = "⏳ Mencari...";
-            
-            const device = await navigator.bluetooth.requestDevice({ 
-                acceptAllDevices: true, 
-                optionalServices: ['000018f0-0000-1000-8000-00805f9b34fb'] 
-            });
-            
+            const device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true, optionalServices: ['000018f0-0000-1000-8000-00805f9b34fb'] });
             if (btn) btn.innerText = "⏳ Menyambungkan...";
-            
             const server = await device.gatt.connect(); 
             const service = await server.getPrimaryService('000018f0-0000-1000-8000-00805f9b34fb');
             printerCharacteristic = await service.getCharacteristic('00002af1-0000-1000-8000-00805f9b34fb');
-            
-            if (btn) {
-                btn.className = "btn btn-sm btn-success fw-bold text-white me-2"; 
-                btn.innerText = "🟢 Terhubung";
-            }
+            if (btn) { btn.className = "btn btn-sm btn-success fw-bold text-white me-2"; btn.innerText = "🟢 Terhubung"; }
             alert("Printer Bluetooth Tersambung!");
         } catch (error) { 
             let btn = document.getElementById('btnHubungkanBluetooth');
-            if (btn) {
-                btn.className = "btn btn-sm btn-info fw-bold text-white me-2"; 
-                btn.innerText = "🔌 Printer"; 
-            }
-            console.error(error);
-            alert("Koneksi gagal. Pesan error sistem: " + error.message);
+            if (btn) { btn.className = "btn btn-sm btn-info fw-bold text-white me-2"; btn.innerText = "🔌 Printer"; }
+            console.error(error); alert("Koneksi gagal: " + error.message);
         }
     };
 
     // ------------------------------------
-    // 3. LOGIKA KERANJANG & METODE BAYAR (QRIS/TUNAI)
+    // 4. LOGIKA PERHITUNGAN UANG & METODE BAYAR
     // ------------------------------------
     window.hitungKembalian = function() {
         let elemBayar = document.getElementById('inputBayar');
@@ -308,13 +361,9 @@
         let kembalian = bayar - totalKeranjangGlobal;
 
         if (bayar >= totalKeranjangGlobal && totalKeranjangGlobal > 0) {
-            elemTeks.innerText = formatRupiah(kembalian);
-            elemTeks.className = "fw-bold text-success fs-5"; 
-            elemBtn.disabled = false; 
+            elemTeks.innerText = formatRupiah(kembalian); elemTeks.className = "fw-bold text-success fs-5"; elemBtn.disabled = false; 
         } else {
-            elemTeks.innerText = formatRupiah(kembalian < 0 ? 0 : kembalian);
-            elemTeks.className = "fw-bold text-danger fs-5"; 
-            elemBtn.disabled = true; 
+            elemTeks.innerText = formatRupiah(kembalian < 0 ? 0 : kembalian); elemTeks.className = "fw-bold text-danger fs-5"; elemBtn.disabled = true; 
         }
     };
 
@@ -326,14 +375,16 @@
 
         if (metode === 'QRIS') {
             boxTunai.classList.add('d-none'); boxQris.classList.remove('d-none');
-            inputB.value = totalKeranjangGlobal; 
-            hitungKembalian();
+            inputB.value = totalKeranjangGlobal; hitungKembalian();
         } else {
             boxTunai.classList.remove('d-none'); boxQris.classList.add('d-none');
             inputB.value = ''; hitungKembalian(); inputB.focus();
         }
     };
 
+    // ------------------------------------
+    // 5. LOGIKA KERANJANG (QTY +/-)
+    // ------------------------------------
     window.ubahQtyKeranjang = function(indexKeranjang, delta) {
         let item = keranjangBelanja[indexKeranjang]; let stokTersedia = daftarBarang[item.indexGudang].stok;
         let qtyBaru = item.jumlah + delta;
@@ -375,17 +426,14 @@
     };
 
     // ------------------------------------
-    // 4. SCANNER KAMERA
+    // 6. SCANNER KAMERA
     // ------------------------------------
     window.bukaScanner = function(mode) {
         scannerMode = mode; lastScannedBarcode = ""; lastScannedTime = 0;
         const modalScanner = new bootstrap.Modal(document.getElementById('modalScanner')); modalScanner.show();
         
-        if(mode === 'kasir') {
-            document.getElementById('teksPetunjukScan').innerText = "Kamera selalu standby. Dekatkan produk bergantian. Klik (X) jika selesai.";
-        } else {
-            document.getElementById('teksPetunjukScan').innerText = "Kamera akan menutup otomatis setelah berhasil mendeteksi barcode.";
-        }
+        if(mode === 'kasir') { document.getElementById('teksPetunjukScan').innerText = "Mode Kasir: Kamera standby. Klik (X) jika selesai."; } 
+        else { document.getElementById('teksPetunjukScan').innerText = "Mode Gudang: Kamera akan tertutup otomatis setelah sukses scan."; }
 
         html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 20, qrbox: { width: 260, height: 160 }, rememberLastCameraUsed: true });
         html5QrcodeScanner.render(onScanSuccess, onScanError);
@@ -397,7 +445,6 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         let currentTime = Date.now();
-        // Mencegah scan berulang yang terlalu cepat pada mode kasir
         if (scannerMode === 'kasir' && decodedText === lastScannedBarcode && (currentTime - lastScannedTime < 1500)) return;
 
         lastScannedBarcode = decodedText; lastScannedTime = currentTime;
@@ -417,7 +464,7 @@
                     if (bg.stok < 1) return alert(`Stok habis!`); 
                     keranjangBelanja.push({ indexGudang: indexGudang, nama: bg.nama, harga: bg.harga, jumlah: 1, subtotal: bg.harga }); 
                 }
-                perbaruiTampilan(); // Kamera tetap hidup untuk mode kasir
+                perbaruiTampilan(); 
             } else { 
                 tutupScanner(); alert(`Barcode [${decodedText}] belum terdaftar di Gudang!`); 
             }
@@ -426,7 +473,7 @@
     function onScanError(errorMessage) {}
 
     // ------------------------------------
-    // 5. MANAJEMEN GUDANG & PENCARIAN CERDAS
+    // 7. MANAJEMEN GUDANG & PENCARIAN CERDAS
     // ------------------------------------
     window.gantiModeGudang = function() {
         const mode = document.querySelector('input[name="modeGudang"]:checked').value;
@@ -476,7 +523,7 @@
     window.batalkanTransaksiPenuh = function(indexNota) { if (confirm(`Batalkan Nota?`)) { riwayatPenjualan[indexNota].items.forEach(itemNota => { const bg = daftarBarang.find(b => b.nama === itemNota.nama); if (bg) bg.stok += itemNota.jumlah; }); riwayatPenjualan.splice(indexNota, 1); perbaruiTampilan(); } };
 
     // ------------------------------------
-    // 6. RENDER TAMPILAN UTAMA
+    // 8. RENDER TAMPILAN UTAMA
     // ------------------------------------
     window.perbaruiTampilan = function() {
         const tabelBody = document.getElementById('tabelBody'); const listBarangKasir = document.getElementById('listBarangKasir');
@@ -545,7 +592,7 @@
     };
 
     // ------------------------------------
-    // 7. CETAK STRUK & PENYELESAIAN
+    // 9. CETAK STRUK & PENYELESAIAN
     // ------------------------------------
     window.prosesTransaksiSelesai = function() {
         if (keranjangBelanja.length === 0) return;
@@ -653,20 +700,8 @@
     window.pemicuCetakLangsung = function(idx) { eksekusiCetakPWA(riwayatPenjualan[idx]); };
 
     // ------------------------------------
-    // 8. PENGATURAN TOKO & LOGIN
+    // 10. LOGIN & MANAJEMEN AKUN
     // ------------------------------------
-    window.simpanPengaturanToko = async function(e) {
-        e.preventDefault();
-        configToko.nama = document.getElementById('inputNamaToko').value.trim(); configToko.alamat = document.getElementById('inputAlamatToko').value.trim(); configToko.telepon = document.getElementById('inputTeleponToko').value.trim();
-        configToko.pesanBawah = document.getElementById('inputPesanBawah1').value.trim(); configToko.pesanBawah2 = document.getElementById('inputPesanBawah2').value.trim(); configToko.pesanBawah3 = document.getElementById('inputPesanBawah3').value.trim();
-        configToko.ig = document.getElementById('inputIg').value.trim(); configToko.fb = document.getElementById('inputFb').value.trim(); configToko.tiktok = document.getElementById('inputTiktok').value.trim();
-        
-        const fileAplikasi = document.getElementById('inputLogoAplikasi').files[0]; const fileStruk = document.getElementById('inputLogoStruk').files[0]; const fileQris = document.getElementById('inputQrisToko').files[0];
-        if (fileAplikasi) configToko.logoAplikasi = await bacaFileGambar(fileAplikasi); if (fileStruk) configToko.logoStruk = await bacaFileGambar(fileStruk); if (fileQris) configToko.qris = await bacaFileGambar(fileQris);
-        
-        localStorage.setItem('lokalcaffee_config', JSON.stringify(configToko)); terapkanConfigToko(); alert("Toko Diperbarui!");
-    };
-
     window.prosesLogin = function(e) {
         e.preventDefault();
         const inputId = document.getElementById('inputId').value.trim().toLowerCase(); const inputPin = document.getElementById('inputPin').value;
@@ -696,30 +731,17 @@
     window.hapusAkun = function(index) { if(confirm(`Hapus akun "${dataPengguna[index].nama}"?`)) { dataPengguna.splice(index, 1); localStorage.setItem('lokalcaffee_users', JSON.stringify(dataPengguna)); renderTabelAkun(); } };
     window.ubahPassword = function(index) { const pinBaru = prompt("PIN baru untuk " + dataPengguna[index].nama + ":"); if (pinBaru !== null && pinBaru.trim() !== "") { dataPengguna[index].pass = pinBaru.trim(); localStorage.setItem('lokalcaffee_users', JSON.stringify(dataPengguna)); renderTabelAkun(); alert("PIN diperbarui!"); } };
 
-    function terapkanConfigToko() {
-        document.getElementById('loginTitle').innerText = configToko.nama; document.title = "kasir"; 
-        document.getElementById('inputNamaToko').value = configToko.nama; document.getElementById('inputAlamatToko').value = configToko.alamat || ""; document.getElementById('inputTeleponToko').value = configToko.telepon || "";
-        document.getElementById('inputPesanBawah1').value = configToko.pesanBawah || ""; document.getElementById('inputPesanBawah2').value = configToko.pesanBawah2 || ""; document.getElementById('inputPesanBawah3').value = configToko.pesanBawah3 || "";
-        document.getElementById('inputIg').value = configToko.ig || ""; document.getElementById('inputFb').value = configToko.fb || ""; document.getElementById('inputTiktok').value = configToko.tiktok || "";
-        
-        const headerLogo = configToko.logoAplikasi ? `<img src="${configToko.logoAplikasi}" style="height:30px; width:30px; border-radius:50%; object-fit:cover; margin-right:10px;">` : `☕ `;
-        document.getElementById('headerTitle').innerHTML = headerLogo + configToko.nama;
-        const loginLogoEl = document.getElementById('loginLogo'); if (configToko.logoAplikasi) { loginLogoEl.src = configToko.logoAplikasi; loginLogoEl.classList.remove('d-none'); } else { loginLogoEl.classList.add('d-none'); }
-        
-        const qrisContainer = document.getElementById('qrisImageContainer'); if(configToko.qris) { qrisContainer.innerHTML = `<img src="${configToko.qris}" class="qris-img-render" alt="QRIS">`; } else { qrisContainer.innerHTML = `<p class="small text-danger my-2">⚠️ Gambar QRIS Belum Diatur</p>`; }
-    }
-
-    // BOOT APLIKASI
+    // BOOT APLIKASI AWAL
     terapkanConfigToko();
 
     // ------------------------------------
-    // 9. SERVICE WORKER (SYARAT PWA INSTALL ANDROID)
+    // 11. PENGATURAN SERVICE WORKER PWA
     // ------------------------------------
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
                 .then(reg => console.log('PWA Service Worker terdaftar!'))
-                .catch(err => console.log('Gagal daftar Service Worker!', err));
+                .catch(err => console.log('Gagal daftar Service Worker! (Abaikan jika sedang testing)', err));
         });
     }
 </script>
