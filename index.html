@@ -210,13 +210,18 @@
 </div>
 
 <!-- ========================================== -->
-<!-- MODAL CONFIG (PENGATURAN TOKO & AKUN ADMIN) -->
+<!-- MODAL CONFIG (PENGATURAN TOKO ADMIN) -->
 <!-- ========================================== -->
 <div class="modal fade" id="modalAturAkun" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header bg-warning"><h5 class="modal-title fw-bold text-dark">⚙️ Pengaturan Toko & Akun</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-header bg-warning">
+          <h5 class="modal-title fw-bold text-dark">⚙️ Pengaturan Toko</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
       <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+        
+        <h6 class="fw-bold text-secondary border-bottom pb-2">Profil Toko / Struk:</h6>
         <form id="formAturToko" class="row g-2 mb-4" onsubmit="simpanPengaturanToko(event)">
             <div class="col-12"><label class="small fw-bold text-muted">Nama Toko</label><input type="text" id="inputNamaToko" class="form-control form-control-sm fw-bold" required></div>
             <div class="col-12"><label class="small fw-bold text-muted">Alamat Toko</label><input type="text" id="inputAlamatToko" class="form-control form-control-sm" required></div>
@@ -224,15 +229,18 @@
             <div class="col-12 mt-2"><label class="small fw-bold text-muted">Pesan Bawah 1</label><input type="text" id="inputPesanBawah1" class="form-control form-control-sm" required></div>
             <div class="col-12"><label class="small fw-bold text-muted">Pesan Bawah 2</label><input type="text" id="inputPesanBawah2" class="form-control form-control-sm"></div>
             <div class="col-12"><label class="small fw-bold text-muted">Pesan Bawah 3</label><input type="text" id="inputPesanBawah3" class="form-control form-control-sm"></div>
-            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">📱 Sosial Media (Cetak Rata Kiri)</label></div>
+            
+            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">📱 Sosial Media</label></div>
             <div class="col-12"><div class="input-group input-group-sm mb-2"><span class="input-group-text bg-light fw-bold">📸 IG</span><input type="text" id="inputIg" class="form-control"></div></div>
             <div class="col-12"><div class="input-group input-group-sm mb-2"><span class="input-group-text bg-light fw-bold">📘 FB</span><input type="text" id="inputFb" class="form-control"></div></div>
             <div class="col-12"><div class="input-group input-group-sm mb-2"><span class="input-group-text bg-light fw-bold">🎵 TikTok</span><input type="text" id="inputTiktok" class="form-control"></div></div>
+            
             <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-success">📱 Upload Gambar QRIS Toko</label><input type="file" id="inputQrisToko" class="form-control form-control-sm" accept="image/*"></div>
-            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">🖼️ Upload Logo Layar Aplikasi</label><input type="file" id="inputLogoAplikasi" class="form-control form-control-sm" accept="image/*"></div>
-            <div class="col-12 mt-2"><label class="small fw-bold text-danger">🖨️ Upload Logo Kertas Printer</label><input type="file" id="inputLogoStruk" class="form-control form-control-sm" accept="image/*"></div>
+            <div class="col-12 mt-3 pt-2 border-top"><label class="small fw-bold text-primary">🖼️ Upload Logo Layar (Warna)</label><input type="file" id="inputLogoAplikasi" class="form-control form-control-sm" accept="image/*"></div>
+            <div class="col-12 mt-2"><label class="small fw-bold text-danger">🖨️ Upload Logo Struk (Hitam Putih)</label><input type="file" id="inputLogoStruk" class="form-control form-control-sm" accept="image/*"></div>
             <div class="col-12 mt-3"><button type="submit" class="btn btn-primary btn-sm w-100 fw-bold py-2">Simpan Profil Toko</button></div>
         </form>
+
         <h6 class="fw-bold text-secondary border-bottom pb-2 mt-4">Buat Akun Kasir Baru:</h6>
         <form id="formTambahAkun" class="row g-2 mb-4" onsubmit="tambahAkunBaru(event)">
             <div class="col-4"><input type="text" id="idBaru" class="form-control form-control-sm" placeholder="ID" required></div>
@@ -240,25 +248,31 @@
             <div class="col-4"><input type="text" id="passBaru" class="form-control form-control-sm" placeholder="PIN" required></div>
             <div class="col-12 mt-2"><button type="submit" class="btn btn-success btn-sm w-100 fw-bold">Tambah Akun</button></div>
         </form>
+
         <h6 class="fw-bold text-secondary border-bottom pb-2">Daftar Akun Terdaftar:</h6>
-        <div class="table-responsive"><table class="table table-sm table-bordered align-middle text-center" style="font-size: 14px;"><thead class="table-light"><tr><th>ID</th><th>Nama</th><th>PIN</th><th>Aksi</th></tr></thead><tbody id="tabelDaftarAkun"></tbody></table></div>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered align-middle text-center" style="font-size: 14px;">
+                <thead class="table-light"><tr><th>ID</th><th>Nama</th><th>PIN</th><th>Aksi</th></tr></thead>
+                <tbody id="tabelDaftarAkun"></tbody>
+            </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- SCRIPT JS LENGKAP -->
-<!-- ========================================== -->
+<!-- MENGAMBIL SCRIPT BOOTSTRAP -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- ========================================== -->
+<!-- SCRIPT LOGIKA JAVASCRIPT APLIKASI KASIR -->
+<!-- ========================================== -->
 <script>
     // ------------------------------------
     // 1. VARIABEL GLOBAL & DATABASE PENYIMPANAN
     // ------------------------------------
     let configToko = JSON.parse(localStorage.getItem('lokalcaffee_config')) || { 
-        nama: "LOKAL CAFFEE", alamat: "Ketik Alamat Anda di Pengaturan", telepon: "", 
-        pesanBawah: "Terima Kasih Atas Kunjungan Anda", pesanBawah2: "", pesanBawah3: "",
+        nama: "LOKAL CAFFEE", alamat: "Ketik Alamat Anda", telepon: "", pesanBawah: "Terima Kasih", pesanBawah2: "", pesanBawah3: "",
         ig: "", fb: "", tiktok: "", logoAplikasi: "", logoStruk: "", qris: ""
     };
     
@@ -272,7 +286,7 @@
     let html5QrcodeScanner = null; let scannerMode = ''; 
     let lastScannedBarcode = ""; let lastScannedTime = 0;
 
-    // SVG Sosmed
+    // SVG Logo Sosial Media untuk Struk
     const svgIG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.4 5.6 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.6 18.4 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 0 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z'/></svg>");
     const svgFB = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-1.1 0-2 .9-2 2v1h4l-1 3h-3v6.8c4.56-.93 8-4.96 8-9.8z'/></svg>");
     const svgTiktok = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-1.13 4.45-2.92 5.8-1.78 1.36-4.14 1.84-6.32 1.29-2.18-.53-4.05-2.11-4.88-4.18-.84-2.07-.63-4.5.54-6.38 1.18-1.89 3.23-3.1 5.4-3.41 1.05-.15 2.13-.07 3.16.14V13.6c-.73-.24-1.52-.3-2.28-.15-1.07.2-2.06.84-2.6 1.77-.55.93-.66 2.1-.28 3.1.37.93 1.21 1.63 2.23 1.85 1.02.21 2.1.01 2.93-.57.83-.58 1.36-1.5 1.45-2.51.13-3.53.07-7.07.08-10.61.02-2.16-.03-4.32.02-6.48z'/></svg>");
@@ -280,56 +294,86 @@
     function formatRupiah(angka) { return 'Rp ' + angka.toLocaleString('id-ID'); }
 
     // ------------------------------------
-    // 2. IMAGE COMPRESSOR & PENGATURAN TOKO (Anti-Macet Storage)
+    // 2. IMAGE COMPRESSOR & PENGATURAN TOKO (PERBAIKAN BUG MEMORY LEAK)
     // ------------------------------------
     function bacaFileGambar(file) { 
-        return new Promise((resolve) => { 
+        return new Promise((resolve, reject) => { 
             const reader = new FileReader(); 
             reader.onload = (e) => {
                 const img = new Image();
                 img.onload = () => {
                     const canvas = document.createElement('canvas');
                     let w = img.width; let h = img.height;
-                    if (w > 500) { h = Math.round(h * (500 / w)); w = 500; }
+                    
+                    // PERBAIKAN 1: Resize ke 300px agar aman tidak memenuhi memori LocalStorage
+                    if (w > 300) { h = Math.round(h * (300 / w)); w = 300; }
+                    
                     canvas.width = w; canvas.height = h;
                     const ctx = canvas.getContext('2d');
-                    ctx.fillStyle = "white"; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
-                    resolve(canvas.toDataURL('image/jpeg', 0.6)); 
+                    ctx.fillStyle = "white"; ctx.fillRect(0, 0, w, h);
+                    ctx.drawImage(img, 0, 0, w, h);
+                    
+                    // PERBAIKAN 2: Kompresi ke 50% kualitas JPEG
+                    resolve(canvas.toDataURL('image/jpeg', 0.5)); 
                 };
+                img.onerror = () => reject("Gambar rusak.");
                 img.src = e.target.result;
             }; 
+            reader.onerror = () => reject("Gagal membaca file.");
             reader.readAsDataURL(file); 
         }); 
     }
 
     window.simpanPengaturanToko = async function(e) {
         e.preventDefault();
-        configToko.nama = document.getElementById('inputNamaToko').value.trim(); 
-        configToko.alamat = document.getElementById('inputAlamatToko').value.trim(); 
-        configToko.telepon = document.getElementById('inputTeleponToko').value.trim();
-        configToko.pesanBawah = document.getElementById('inputPesanBawah1').value.trim(); 
-        configToko.pesanBawah2 = document.getElementById('inputPesanBawah2').value.trim(); 
-        configToko.pesanBawah3 = document.getElementById('inputPesanBawah3').value.trim();
-        configToko.ig = document.getElementById('inputIg').value.trim(); 
-        configToko.fb = document.getElementById('inputFb').value.trim(); 
-        configToko.tiktok = document.getElementById('inputTiktok').value.trim();
         
-        const fileAplikasi = document.getElementById('inputLogoAplikasi').files[0]; 
-        const fileStruk = document.getElementById('inputLogoStruk').files[0]; 
-        const fileQris = document.getElementById('inputQrisToko').files[0];
-        
-        if (fileAplikasi) configToko.logoAplikasi = await bacaFileGambar(fileAplikasi); 
-        if (fileStruk) configToko.logoStruk = await bacaFileGambar(fileStruk); 
-        if (fileQris) configToko.qris = await bacaFileGambar(fileQris);
-        
+        // PERBAIKAN 3: Beri efek loading agar tidak di-klik dobel
+        let btnSubmit = e.target.querySelector('button[type="submit"]');
+        let teksAsli = btnSubmit.innerText;
+        btnSubmit.innerText = "⏳ Menyimpan Profil...";
+        btnSubmit.disabled = true;
+
         try {
+            configToko.nama = document.getElementById('inputNamaToko').value.trim(); 
+            configToko.alamat = document.getElementById('inputAlamatToko').value.trim(); 
+            configToko.telepon = document.getElementById('inputTeleponToko').value.trim();
+            configToko.pesanBawah = document.getElementById('inputPesanBawah1').value.trim(); 
+            configToko.pesanBawah2 = document.getElementById('inputPesanBawah2').value.trim(); 
+            configToko.pesanBawah3 = document.getElementById('inputPesanBawah3').value.trim();
+            configToko.ig = document.getElementById('inputIg').value.trim(); 
+            configToko.fb = document.getElementById('inputFb').value.trim(); 
+            configToko.tiktok = document.getElementById('inputTiktok').value.trim();
+            
+            const fileAplikasi = document.getElementById('inputLogoAplikasi').files[0]; 
+            const fileStruk = document.getElementById('inputLogoStruk').files[0]; 
+            const fileQris = document.getElementById('inputQrisToko').files[0];
+            
+            if (fileAplikasi) configToko.logoAplikasi = await bacaFileGambar(fileAplikasi); 
+            if (fileStruk) configToko.logoStruk = await bacaFileGambar(fileStruk); 
+            if (fileQris) configToko.qris = await bacaFileGambar(fileQris);
+            
+            // Simpan ke LocalStorage
             localStorage.setItem('lokalcaffee_config', JSON.stringify(configToko)); 
+            
+            // PERBAIKAN 4: Kosongkan kotak file untuk cegah crash di penyimpanan berikutnya
+            document.getElementById('inputLogoAplikasi').value = "";
+            document.getElementById('inputLogoStruk').value = "";
+            document.getElementById('inputQrisToko').value = "";
+
             terapkanConfigToko(); 
             alert("Pengaturan Toko Berhasil Diperbarui!");
-            let modal = bootstrap.Modal.getInstance(document.getElementById('modalAturAkun'));
+            
+            let modalEl = document.getElementById('modalAturAkun');
+            let modal = bootstrap.Modal.getInstance(modalEl);
             if(modal) modal.hide();
+
         } catch (error) {
-            alert("Gagal menyimpan! Memori penuh.");
+            console.error(error);
+            alert("Gagal menyimpan profil! Error: " + error);
+        } finally {
+            // Kembalikan status tombol
+            btnSubmit.innerText = teksAsli;
+            btnSubmit.disabled = false;
         }
     };
 
@@ -349,7 +393,7 @@
     }
 
     // ------------------------------------
-    // 3. BLUETOOTH API (HARDENED UNTUK PWA)
+    // 3. BLUETOOTH API (DIPERKUAT)
     // ------------------------------------
     window.hubungkanPrinter = async function() {
         if (!navigator.bluetooth) { 
@@ -361,7 +405,6 @@
         try {
             if (btn) btn.innerText = "⏳ Mencari...";
             
-            // Konfigurasi pencarian perangkat paling stabil untuk printer thermal murah
             const device = await navigator.bluetooth.requestDevice({ 
                 acceptAllDevices: true, 
                 optionalServices: ['000018f0-0000-1000-8000-00805f9b34fb'] 
@@ -377,8 +420,7 @@
             alert("Printer Bluetooth Tersambung!");
         } catch (error) { 
             if (btn) { btn.className = "btn btn-sm btn-info fw-bold text-white me-2"; btn.innerText = "🔌 Printer"; }
-            // Pesan error terperinci untuk mengetahui penyebab pemblokiran
-            alert("Gagal Terhubung Bluetooth! \nPenyebab: " + error.message + "\n\nPastikan Izin 'Perangkat Terdekat' & 'Lokasi' menyala di Pengaturan Aplikasi HP Anda.");
+            alert("Gagal Terhubung Bluetooth! \nError: " + error.message);
         }
     };
 
@@ -483,7 +525,6 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         let currentTime = Date.now();
-        // Cegah scan terlalu cepat
         if (scannerMode === 'kasir' && decodedText === lastScannedBarcode && (currentTime - lastScannedTime < 1500)) return;
 
         lastScannedBarcode = decodedText; lastScannedTime = currentTime;
@@ -783,4 +824,4 @@
     }
 </script>
 </body>
-</html>
+    </html>
