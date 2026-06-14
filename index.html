@@ -3,21 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- META TAGS PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0d6efd">
     
     <title>kasir</title>
-    <!-- FILE PENDUKUNG PWA -->
     <link rel="manifest" href="./manifest.json">
     <link rel="apple-touch-icon" href="./unnamed.png">
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- LIBRARY BARCODE SCANNER -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
     <style>
@@ -46,9 +42,6 @@
         .qris-display-box { text-align: center; background: white; padding: 10px; border-radius: 8px; border: 2px solid #dee2e6; margin-top: 10px; }
         .qris-img-render { max-width: 180px; height: auto; margin: 0 auto; }
 
-        /* ======================================================== */
-        /* CSS KHUSUS MODE CETAK (PRINT) - Menyembunyikan elemen UI */
-        /* ======================================================== */
         @media print {
             body.mode-cetak-laporan * { visibility: hidden; }
             body.mode-cetak-laporan #modalLaporan, body.mode-cetak-laporan #modalLaporan * { visibility: visible; }
@@ -58,7 +51,7 @@
             body.mode-cetak-struk * { visibility: hidden; }
             body.mode-cetak-struk #areaCetakStruk, body.mode-cetak-struk #areaCetakStruk * { visibility: visible; }
             body.mode-cetak-struk #areaCetakStruk { 
-                position: absolute; left: 0; top: 0; width: 58mm; /* Lebar kertas Thermal */
+                position: absolute; left: 0; top: 0; width: 58mm;
                 padding: 0; margin: 0; font-family: monospace; font-size: 12px; color: black; 
             }
         }
@@ -66,10 +59,8 @@
 </head>
 <body>
 
-<!-- AREA KHUSUS CETAK STRUK THERMAL USB (Disembunyikan di layar HP) -->
 <div id="areaCetakStruk" class="d-none"></div>
 
-<!-- HALAMAN LOGIN -->
 <div id="halamanLogin">
     <div class="login-box">
         <img id="loginLogo" src="" class="logo-login d-none" alt="Logo Toko">
@@ -84,14 +75,11 @@
     </div>
 </div>
 
-<!-- HALAMAN UTAMA KASIR -->
 <div id="halamanKasirUtama" class="container-app">
-    <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-3 bg-white p-3 rounded shadow-sm">
         <h3 id="headerTitle" class="text-primary fw-bold mb-0 d-flex align-items-center" style="font-size: 18px;">☕ LOKAL CAFFEE</h3>
         <div class="text-end d-flex align-items-center justify-content-end">
             <span id="namaKasirAktif" class="badge bg-secondary fs-6 me-2 d-none d-md-inline">Kasir: -</span>
-            <!-- TOMBOL FITUR BARU: LAPORAN (Hanya untuk Admin) -->
             <button id="btnLaporan" class="btn btn-sm btn-success fw-bold text-white me-2 d-none" data-bs-toggle="modal" data-bs-target="#modalLaporan" onclick="bukaLaporan()">📊 Laporan</button>
             <button id="btnHubungkanBluetooth" class="btn btn-sm btn-info fw-bold text-white me-2" onclick="hubungkanPrinter()">🔌 Printer</button>
             <button id="btnAturAkun" class="btn btn-sm btn-warning fw-bold text-dark me-2 d-none" data-bs-toggle="modal" data-bs-target="#modalAturAkun">⚙️ Config</button>
@@ -99,7 +87,6 @@
         </div>
     </div>
 
-    <!-- DASHBOARD KEUANGAN -->
     <div class="row mb-2">
         <div class="col-6 col-md-3 mb-3"><div class="stat-card bg-primary text-white"><div class="stat-title">📦 Aset Gudang</div><div id="totalAset" class="stat-value">Rp 0</div></div></div>
         <div class="col-6 col-md-3 mb-3"><div class="stat-card bg-success text-white"><div class="stat-title">💰 Hari Ini</div><div id="pendapatanHarian" class="stat-value">Rp 0</div></div></div>
@@ -108,9 +95,7 @@
     </div>
 
     <div class="row">
-        <!-- ================= KIRI: MESIN KASIR & GUDANG ================= -->
         <div class="col-md-5">
-            <!-- AREA KASIR (KERANJANG) -->
             <div class="card border-start border-success border-4">
                 <div class="card-body">
                     <h5 class="card-title mb-3 fw-bold text-success">🛒 Keranjang Belanja</h5>
@@ -132,7 +117,6 @@
                         </table>
                     </div>
                     
-                    <!-- AREA PEMBAYARAN (TUNAI/QRIS) -->
                     <div class="bg-light p-3 mt-3 rounded border">
                         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
                             <span class="fw-bold text-secondary">Total Belanja:</span><span id="totalKeranjang" class="fw-bold text-success fs-4">Rp 0</span>
@@ -163,7 +147,6 @@
                 </div>
             </div>
 
-            <!-- AREA GUDANG (UPDATE DATA MENU) -->
             <div class="card border-start border-primary border-4">
                 <div class="card-body py-3">
                     <h5 class="card-title mb-3 fw-bold text-primary" style="font-size:16px;">📦 Update Data Menu / Gudang</h5>
@@ -186,15 +169,12 @@
             </div>
         </div>
 
-        <!-- ================= KANAN: TABEL GUDANG & RIWAYAT ================= -->
         <div class="col-md-7">
-            <!-- TABEL STOK -->
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title mb-0 fw-bold text-secondary">📋 Stok Tersedia</h5>
                         <div class="d-flex gap-2">
-                            <!-- TOMBOL KOSONGKAN GUDANG -->
                             <button class="btn btn-sm btn-outline-danger" onclick="resetGudang()">Kosongkan Gudang</button>
                             <input type="text" id="inputCari" class="form-control form-control-sm" style="width: 150px;" placeholder="🔍 Cari menu..." oninput="perbaruiTampilan()">
                         </div>
@@ -208,7 +188,6 @@
                 </div>
             </div>
             
-            <!-- RIWAYAT TRANSAKSI -->
             <div class="card border-start border-info border-4">
                 <div class="card-body py-3">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -221,9 +200,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL KAMERA SCANNER BARCODE -->
-<!-- ========================================== -->
 <div class="modal fade" id="modalScanner" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -233,32 +209,20 @@
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL LAPORAN & STOK OPNAME -->
-<!-- ========================================== -->
 <div class="modal fade" id="modalLaporan" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
             <h5 class="modal-title fw-bold">📊 Rekap Laporan & Opname</h5>
-            <!-- TOMBOL CETAK LAPORAN -->
             <button type="button" class="btn btn-light btn-sm fw-bold ms-auto me-2 no-print" onclick="cetakLaporanKhusus()">🖨️ Print Laporan</button>
             <button type="button" class="btn-close btn-close-white no-print" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body bg-light" style="max-height: 75vh; overflow-y: auto;">
-            
-            <!-- TABS NAVIGASI -->
             <ul class="nav nav-pills nav-fill mb-3 no-print" id="laporanTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active fw-bold border" id="tab-penjualan" data-bs-toggle="tab" data-bs-target="#pane-penjualan" type="button" role="tab">📈 Rekap Penjualan</button>
-                </li>
-                <li class="nav-item ms-2" role="presentation">
-                  <button class="nav-link fw-bold border" id="tab-opname" data-bs-toggle="tab" data-bs-target="#pane-opname" type="button" role="tab">📦 Stok Opname</button>
-                </li>
+                <li class="nav-item" role="presentation"><button class="nav-link active fw-bold border" id="tab-penjualan" data-bs-toggle="tab" data-bs-target="#pane-penjualan" type="button" role="tab">📈 Rekap Penjualan</button></li>
+                <li class="nav-item ms-2" role="presentation"><button class="nav-link fw-bold border" id="tab-opname" data-bs-toggle="tab" data-bs-target="#pane-opname" type="button" role="tab">📦 Stok Opname</button></li>
             </ul>
-              
             <div class="tab-content" id="laporanTabsContent">
-                <!-- PANEL: REKAP PENJUALAN -->
                 <div class="tab-pane fade show active" id="pane-penjualan" role="tabpanel">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
@@ -283,8 +247,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- PANEL: STOK OPNAME -->
                 <div class="tab-pane fade" id="pane-opname" role="tabpanel">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
@@ -302,22 +264,27 @@
                     </div>
                 </div>
             </div>
-
         </div>
       </div>
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL CONFIG (PENGATURAN TOKO ADMIN) -->
-<!-- ========================================== -->
 <div class="modal fade" id="modalAturAkun" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-warning"><h5 class="modal-title fw-bold text-dark">⚙️ Pengaturan Toko & Akun</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+        
+        <h6 class="fw-bold text-secondary border-bottom pb-2">💾 Backup & Restore Data:</h6>
+        <div class="d-flex gap-2 mb-3">
+            <button type="button" class="btn btn-success btn-sm w-50 fw-bold" onclick="eksporDataBackup()">📥 Download Backup</button>
+            <label class="btn btn-danger btn-sm w-50 fw-bold mb-0">
+                📤 Upload Restore <input type="file" id="inputFileRestore" class="d-none" accept=".json" onchange="imporDataRestore(event)">
+            </label>
+        </div>
+        <p class="small text-muted mb-4" style="font-size: 11px;">*Lakukan Download Backup ke HP Anda sebelum tutup warung agar data aman jika browser terhapus.</p>
+
         <form id="formAturToko" class="row g-2 mb-4" onsubmit="simpanPengaturanToko(event)">
-            <!-- PILIHAN TIPE PRINTER -->
             <div class="col-12 border-bottom pb-2 mb-2">
                 <label class="small fw-bold text-danger">🖨️ Pengaturan Tipe Printer Anda:</label>
                 <select id="inputModePrinter" class="form-select fw-bold bg-light">
@@ -326,7 +293,6 @@
                 </select>
                 <small class="text-muted" style="font-size: 11px;">Jika printer tidak ada Bluetooth, pilih Kabel USB.</small>
             </div>
-
             <div class="col-12"><label class="small fw-bold text-muted">Nama Toko</label><input type="text" id="inputNamaToko" class="form-control form-control-sm fw-bold" required></div>
             <div class="col-12"><label class="small fw-bold text-muted">Alamat Toko</label><input type="text" id="inputAlamatToko" class="form-control form-control-sm" required></div>
             <div class="col-12"><label class="small fw-bold text-muted">No Telepon/WA</label><input type="text" id="inputTeleponToko" class="form-control form-control-sm"></div>
@@ -356,9 +322,6 @@
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- SCRIPT JS LENGKAP -->
-<!-- ========================================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -368,8 +331,7 @@
     let configToko = JSON.parse(localStorage.getItem('lokalcaffee_config')) || { 
         nama: "LOKAL CAFFEE", alamat: "Ketik Alamat Anda di Pengaturan", telepon: "", 
         pesanBawah: "Terima Kasih Atas Kunjungan Anda", pesanBawah2: "", pesanBawah3: "",
-        ig: "", fb: "", tiktok: "", logoAplikasi: "", logoStruk: "", qris: "",
-        tipePrinter: "bluetooth" // Variabel baru untuk mode printer
+        ig: "", fb: "", tiktok: "", logoAplikasi: "", logoStruk: "", qris: "", tipePrinter: "bluetooth"
     };
     
     let dataPengguna = JSON.parse(localStorage.getItem('lokalcaffee_users')) || [{ id: "admin", pass: "1234", nama: "Admin Utama", peran: "admin" }];
@@ -380,11 +342,9 @@
     let peranAktif = sessionStorage.getItem('lokalcaffee_peran') || ""; 
     
     let keranjangBelanja = []; let totalKeranjangGlobal = 0; 
-    let printerCharacteristic = null;
-    let html5QrcodeScanner = null; let scannerMode = ''; 
-    let lastScannedBarcode = ""; let lastScannedTime = 0;
+    let printerCharacteristic = null; let html5QrcodeScanner = null; let scannerMode = ''; 
+    let ketikanBarcode = ""; let jedaKetikan; // Hanya deklarasi sekali di sini untuk alat Scanner Tembak
 
-    // SVG Sosmed
     const svgIG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.4 5.6 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.6 18.4 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 0 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z'/></svg>");
     const svgFB = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-1.1 0-2 .9-2 2v1h4l-1 3h-3v6.8c4.56-.93 8-4.96 8-9.8z'/></svg>");
     const svgTiktok = "data:image/svg+xml;charset=utf-8," + encodeURIComponent("<svg viewBox='0 0 24 24' fill='black' xmlns='http://www.w3.org/2000/svg'><path d='M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.23-1.13 4.45-2.92 5.8-1.78 1.36-4.14 1.84-6.32 1.29-2.18-.53-4.05-2.11-4.88-4.18-.84-2.07-.63-4.5.54-6.38 1.18-1.89 3.23-3.1 5.4-3.41 1.05-.15 2.13-.07 3.16.14V13.6c-.73-.24-1.52-.3-2.28-.15-1.07.2-2.06.84-2.6 1.77-.55.93-.66 2.1-.28 3.1.37.93 1.21 1.63 2.23 1.85 1.02.21 2.1.01 2.93-.57.83-.58 1.36-1.5 1.45-2.51.13-3.53.07-7.07.08-10.61.02-2.16-.03-4.32.02-6.48z'/></svg>");
@@ -392,7 +352,7 @@
     function formatRupiah(angka) { return 'Rp ' + angka.toLocaleString('id-ID'); }
 
     // ------------------------------------
-    // 2. IMAGE COMPRESSOR & PROFILE
+    // 2. IMAGE COMPRESSOR & BACKUP RESTORE SYSTEM
     // ------------------------------------
     function bacaFileGambar(file) { 
         return new Promise((resolve, reject) => { 
@@ -416,6 +376,38 @@
         }); 
     }
 
+    window.eksporDataBackup = function() {
+        const semuaData = { config: configToko, users: dataPengguna, gudang: daftarBarang, riwayat: riwayatPenjualan };
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(semuaData));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        const tanggal = new Date().toISOString().slice(0,10);
+        downloadAnchorNode.setAttribute("download", "backup_kasir_" + tanggal + ".json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    };
+
+    window.imporDataRestore = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const dataRestore = JSON.parse(e.target.result);
+                if(dataRestore.config && dataRestore.gudang) {
+                    localStorage.setItem('lokalcaffee_config', JSON.stringify(dataRestore.config));
+                    localStorage.setItem('lokalcaffee_users', JSON.stringify(dataRestore.users || dataPengguna));
+                    localStorage.setItem('lokalcaffee_gudang', JSON.stringify(dataRestore.gudang));
+                    localStorage.setItem('lokalcaffee_riwayat', JSON.stringify(dataRestore.riwayat || []));
+                    alert("✅ Data berhasil di-restore! Aplikasi akan dimuat ulang untuk menerapkan data.");
+                    location.reload();
+                } else { alert("❌ Format file tidak valid! Pastikan itu adalah file backup dari aplikasi ini."); }
+            } catch(err) { alert("❌ Gagal membaca file backup!"); }
+        };
+        reader.readAsText(file);
+    };
+
     window.simpanPengaturanToko = async function(e) {
         e.preventDefault();
         let btnSubmit = e.target.querySelector('button[type="submit"]');
@@ -433,7 +425,7 @@
             configToko.ig = document.getElementById('inputIg').value.trim(); 
             configToko.fb = document.getElementById('inputFb').value.trim(); 
             configToko.tiktok = document.getElementById('inputTiktok').value.trim();
-            configToko.tipePrinter = document.getElementById('inputModePrinter').value; // Menyimpan mode USB/Bluetooth
+            configToko.tipePrinter = document.getElementById('inputModePrinter').value;
             
             const fileAplikasi = document.getElementById('inputLogoAplikasi').files[0]; 
             const fileStruk = document.getElementById('inputLogoStruk').files[0]; 
@@ -445,19 +437,13 @@
             
             localStorage.setItem('lokalcaffee_config', JSON.stringify(configToko)); 
             
-            document.getElementById('inputLogoAplikasi').value = "";
-            document.getElementById('inputLogoStruk').value = "";
-            document.getElementById('inputQrisToko').value = "";
-
+            document.getElementById('inputLogoAplikasi').value = ""; document.getElementById('inputLogoStruk').value = ""; document.getElementById('inputQrisToko').value = "";
             terapkanConfigToko(); 
             alert("Pengaturan Toko Berhasil Diperbarui!");
             let modal = bootstrap.Modal.getInstance(document.getElementById('modalAturAkun'));
             if(modal) modal.hide();
-        } catch (error) {
-            alert("Gagal menyimpan profil! Error: " + error);
-        } finally {
-            btnSubmit.innerText = teksAsli; btnSubmit.disabled = false;
-        }
+        } catch (error) { alert("Gagal menyimpan profil! Error: " + error); } 
+        finally { btnSubmit.innerText = teksAsli; btnSubmit.disabled = false; }
     };
 
     function terapkanConfigToko() {
@@ -466,25 +452,17 @@
         document.getElementById('inputPesanBawah1').value = configToko.pesanBawah || ""; document.getElementById('inputPesanBawah2').value = configToko.pesanBawah2 || ""; document.getElementById('inputPesanBawah3').value = configToko.pesanBawah3 || "";
         document.getElementById('inputIg').value = configToko.ig || ""; document.getElementById('inputFb').value = configToko.fb || ""; document.getElementById('inputTiktok').value = configToko.tiktok || "";
         
-        // Memuat status toggle pilihan printer
         if(configToko.tipePrinter) { document.getElementById('inputModePrinter').value = configToko.tipePrinter; }
-        
-        // Mengubah warna tombol Bluetooth jika USB yang dipilih
         let btnBt = document.getElementById('btnHubungkanBluetooth');
         if (configToko.tipePrinter === 'usb') {
-            btnBt.innerText = "🖨️ Mode USB";
-            btnBt.classList.replace('btn-info', 'btn-secondary');
-            btnBt.disabled = true; // Kunci tombol BT
+            btnBt.innerText = "🖨️ Mode USB"; btnBt.classList.replace('btn-info', 'btn-secondary'); btnBt.disabled = true;
         } else {
-            btnBt.innerText = "🔌 Printer";
-            btnBt.classList.replace('btn-secondary', 'btn-info');
-            btnBt.disabled = false;
+            btnBt.innerText = "🔌 Printer"; btnBt.classList.replace('btn-secondary', 'btn-info'); btnBt.disabled = false;
         }
 
         const headerLogo = configToko.logoAplikasi ? `<img src="${configToko.logoAplikasi}" style="height:30px; width:30px; border-radius:50%; object-fit:cover; margin-right:10px;">` : `☕ `;
         document.getElementById('headerTitle').innerHTML = headerLogo + configToko.nama;
         const loginLogoEl = document.getElementById('loginLogo'); if (configToko.logoAplikasi) { loginLogoEl.src = configToko.logoAplikasi; loginLogoEl.classList.remove('d-none'); } else { loginLogoEl.classList.add('d-none'); }
-        
         const qrisContainer = document.getElementById('qrisImageContainer'); 
         if(configToko.qris) { qrisContainer.innerHTML = `<img src="${configToko.qris}" class="qris-img-render" alt="QRIS">`; } 
         else { qrisContainer.innerHTML = `<p class="small text-danger my-2">⚠️ Gambar QRIS Belum Diatur</p>`; }
@@ -574,7 +552,6 @@
         e.preventDefault();
         const namaDiketik = document.getElementById('inputPencarianKasir').value.trim(); 
         const qty = parseInt(document.getElementById('jumlahBeli').value);
-        
         const indexGudang = daftarBarang.findIndex(b => b.nama === namaDiketik || b.barcode === namaDiketik);
         if (indexGudang === -1) return alert("Menu tidak ditemukan!");
         
@@ -593,7 +570,7 @@
     };
 
     // ------------------------------------
-    // 6. KAMERA SCANNER
+    // 6. KAMERA SCANNER WEB
     // ------------------------------------
     window.bukaScanner = function(mode) {
         scannerMode = mode;
@@ -611,38 +588,17 @@
         if (navigator.vibrate) navigator.vibrate(80);
         tutupScanner(); 
 
-        if (scannerMode === 'gudang') {
-            document.getElementById('barcodeBarang').value = decodedText;
-        } 
-        else if (scannerMode === 'kasir') {
-            let indexGudang = daftarBarang.findIndex(b => b.barcode === decodedText);
-            if (indexGudang !== -1) {
-                let bg = daftarBarang[indexGudang]; 
-                let itemAda = keranjangBelanja.find(item => item.indexGudang === indexGudang);
-                if (itemAda) { 
-                    if ((itemAda.jumlah + 1) > bg.stok) { alert(`Stok ${bg.nama} habis!`); } 
-                    else { itemAda.jumlah += 1; itemAda.subtotal = itemAda.jumlah * itemAda.harga; } 
-                } else { 
-                    if (bg.stok < 1) return alert(`Stok habis!`); 
-                    keranjangBelanja.push({ indexGudang: indexGudang, nama: bg.nama, harga: bg.harga, jumlah: 1, subtotal: bg.harga }); 
-                }
-                perbaruiTampilan(); 
-            } else { 
-                alert(`Barcode [${decodedText}] belum terdaftar di Gudang!`); 
-            }
-        }
+        if (scannerMode === 'gudang') { document.getElementById('barcodeBarang').value = decodedText; } 
+        else if (scannerMode === 'kasir') { prosesBarcodeScannerFisik(decodedText); }
     }
     function onScanError(errorMessage) {}
 
     // ------------------------------------
-    // 7. MANAJEMEN GUDANG & PENCARIAN CERDAS
+    // 7. MANAJEMEN GUDANG
     // ------------------------------------
     window.gantiModeGudang = function() {
         const mode = document.querySelector('input[name="modeGudang"]:checked').value;
-        const boxNamaTeks = document.getElementById('boxNamaTeks'); 
-        const boxNamaDropdown = document.getElementById('boxNamaDropdown'); 
-        const boxBarcode = document.getElementById('boxBarcode');
-        
+        const boxNamaTeks = document.getElementById('boxNamaTeks'); const boxNamaDropdown = document.getElementById('boxNamaDropdown'); const boxBarcode = document.getElementById('boxBarcode');
         if (mode === 'restock') { 
             boxNamaTeks.classList.add('d-none'); boxNamaDropdown.classList.remove('d-none'); boxBarcode.classList.add('d-none'); 
             document.getElementById('namaBarang').removeAttribute('required'); document.getElementById('pilihBarangGudang').setAttribute('required', 'true'); 
@@ -668,15 +624,12 @@
         if (mode === 'baru') {
             const nama = document.getElementById('namaBarang').value.trim(); 
             const barcodeInput = document.getElementById('barcodeBarang').value.trim();
-            
             const duplikatNama = daftarBarang.find(b => b.nama.toLowerCase() === nama.toLowerCase());
             if (duplikatNama) return alert(`GAGAL: Menu dengan nama "${nama}" sudah ada di gudang!`);
-
             if (barcodeInput !== "") {
                 const duplikatBarcode = daftarBarang.find(b => b.barcode === barcodeInput);
                 if (duplikatBarcode) return alert(`GAGAL: Barcode "${barcodeInput}" sudah dipakai oleh menu "${duplikatBarcode.nama}"!`);
             }
-
             daftarBarang.push({ nama: nama, harga: harga, stok: stok, barcode: barcodeInput });
         } else {
             const nilaiInputGudang = document.getElementById('pilihBarangGudang').value.trim(); 
@@ -728,8 +681,7 @@
 
         tabelKeranjang.innerHTML = ''; totalKeranjangGlobal = 0;
         if (keranjangBelanja.length === 0) { 
-            tabelKeranjang.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-3">Keranjang kosong</td></tr>`; 
-            inputB.disabled = true; inputB.value = ''; 
+            tabelKeranjang.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-3">Keranjang kosong</td></tr>`; inputB.disabled = true; inputB.value = ''; 
         } else {
             const metodeAktif = document.querySelector('input[name="metodeBayar"]:checked').value;
             inputB.disabled = false;
@@ -768,15 +720,13 @@
         document.getElementById('totalAset').innerText = formatRupiah(hitungTotalAset); document.getElementById('pendapatanHarian').innerText = formatRupiah(harian); document.getElementById('pendapatanMingguan').innerText = formatRupiah(mingguan); document.getElementById('pendapatanBulanan').innerText = formatRupiah(bulanan);
         localStorage.setItem('lokalcaffee_gudang', JSON.stringify(daftarBarang)); localStorage.setItem('lokalcaffee_riwayat', JSON.stringify(riwayatPenjualan));
         
-        // Update Laporan jika modal sedang terbuka
         if(document.getElementById('modalLaporan').classList.contains('show')) {
-            gantiFilterLaporan(document.getElementById('filterWaktuLaporan').value);
-            renderOpnameGudang();
+            gantiFilterLaporan(document.getElementById('filterWaktuLaporan').value); renderOpnameGudang();
         }
     };
 
     // ------------------------------------
-    // 9. CETAK STRUK THERMAL (DUAL MODE: BLUETOOTH / USB WEB)
+    // 9. CETAK STRUK THERMAL (DUAL MODE)
     // ------------------------------------
     window.prosesTransaksiSelesai = function() {
         if (keranjangBelanja.length === 0) return;
@@ -784,8 +734,7 @@
         let totalNota = 0; let itemsNota = [];
         
         keranjangBelanja.forEach(item => { 
-            daftarBarang[item.indexGudang].stok -= item.jumlah; 
-            totalNota += item.subtotal; 
+            daftarBarang[item.indexGudang].stok -= item.jumlah; totalNota += item.subtotal; 
             itemsNota.push({ nama: item.nama, harga: item.harga, jumlah: item.jumlah, subtotal: item.subtotal }); 
         });
         
@@ -796,9 +745,7 @@
         riwayatPenjualan.unshift(notaBaru); keranjangBelanja = []; document.getElementById('inputBayar').value = '';
         
         document.getElementById('bayarTunai').checked = true; document.getElementById('boxInputTunai').classList.remove('d-none'); document.getElementById('boxTampilanQris').classList.add('d-none');
-        perbaruiTampilan(); 
-        
-        eksekusiCetakPWA(notaBaru);
+        perbaruiTampilan(); eksekusiCetakPWA(notaBaru);
     };
 
     function getCenteredTextMultiLine(text, width = 32) {
@@ -826,10 +773,8 @@
         });
     }
 
-    // FITUR CETAK WEB/USB (Mencetak dengan driver komputer/laptop/RawBT)
     function cetakViaWebUSB(nota) {
         let areaCetak = document.getElementById('areaCetakStruk');
-        
         let htmlStruk = `<div style="text-align: center; margin-bottom: 10px;">`;
         if (configToko.logoStruk) { htmlStruk += `<img src="${configToko.logoStruk}" style="max-width: 150px; margin-bottom: 5px;"><br>`; }
         htmlStruk += `<strong>${configToko.nama.toUpperCase()}</strong><br>`;
@@ -844,17 +789,15 @@
             htmlStruk += `<tr><td colspan="2">${item.nama}</td></tr>`;
             htmlStruk += `<tr><td style="padding-left: 10px;">${item.jumlah} x ${item.harga.toLocaleString('id-ID')}</td><td style="text-align: right;">${item.subtotal.toLocaleString('id-ID')}</td></tr>`;
         });
-        htmlStruk += `</table>`;
+        htmlStruk += `</table><div style="border-bottom: 1px dashed black; margin-bottom: 5px;"></div>`;
         
-        htmlStruk += `<div style="border-bottom: 1px dashed black; margin-bottom: 5px;"></div>`;
         htmlStruk += `<table style="width: 100%; font-size: 12px; font-weight: bold;">`;
         htmlStruk += `<tr><td>TOTAL</td><td style="text-align: right;">${nota.totalNota.toLocaleString('id-ID')}</td></tr>`;
         let jenisBayarStr = nota.metode === 'QRIS' ? "QRIS" : "TUNAI";
         htmlStruk += `<tr><td>BAYAR (${jenisBayarStr})</td><td style="text-align: right;">${nota.bayar.toLocaleString('id-ID')}</td></tr>`;
         htmlStruk += `<tr><td>KEMBALI</td><td style="text-align: right;">${nota.kembali.toLocaleString('id-ID')}</td></tr>`;
-        htmlStruk += `</table>`;
+        htmlStruk += `</table><div style="border-bottom: 1px dashed black; margin-bottom: 5px; margin-top: 5px;"></div>`;
         
-        htmlStruk += `<div style="border-bottom: 1px dashed black; margin-bottom: 5px; margin-top: 5px;"></div>`;
         htmlStruk += `<div style="text-align: center; margin-top: 10px; font-size: 11px;">`;
         if (configToko.pesanBawah) htmlStruk += `${configToko.pesanBawah}<br>`;
         if (configToko.pesanBawah2) htmlStruk += `${configToko.pesanBawah2}<br>`;
@@ -862,26 +805,15 @@
         htmlStruk += `</div>`;
 
         areaCetak.innerHTML = htmlStruk;
-        
-        // Panggil mode cetak browser
         document.body.classList.add('mode-cetak-struk');
         window.print();
-        
-        // Kembalikan ke mode normal setelah print selesai/batal
         setTimeout(() => { document.body.classList.remove('mode-cetak-struk'); }, 1000);
     }
 
-    // Eksekutor Cetak Induk (Bisa pilih Bluetooth atau USB)
     window.eksekusiCetakPWA = async function(nota) {
-        
-        // PERCABANGAN: Cek tipe printer yang dipilih di pengaturan
-        if (configToko.tipePrinter === 'usb') {
-            cetakViaWebUSB(nota);
-            return; // Hentikan eksekusi kode Bluetooth di bawahnya
-        }
+        if (configToko.tipePrinter === 'usb') { cetakViaWebUSB(nota); return; }
 
-        // ===================== LOGIKA BLUETOOTH ASLI =====================
-        if (!printerCharacteristic) return alert("Printer Bluetooth belum tersambung. Harap klik tombol Printer di atas.");
+        if (!printerCharacteristic) return alert("Printer Bluetooth belum tersambung.");
         let finalBytes = new Uint8Array(0); finalBytes = concatBytes(finalBytes, new Uint8Array([0x1B, 0x40])); 
         
         if (configToko.logoStruk && configToko.logoStruk.startsWith("data:image")) {
@@ -909,7 +841,6 @@
         
         const encoder = new TextEncoder(); finalBytes = concatBytes(finalBytes, encoder.encode(teksStruk));
         finalBytes = concatBytes(finalBytes, encoder.encode("\n\n\n")); document.getElementById('btnBayar').innerText = "🖨️ Mengirim Bluetooth...";
-        
         try { const chunk_size = 20; for (let i = 0; i < finalBytes.length; i += chunk_size) { await printerCharacteristic.writeValue(finalBytes.slice(i, i + chunk_size)); } } 
         catch (error) { alert("Cetak Bluetooth gagal: " + error); }
         document.getElementById('btnBayar').innerText = "⚡ BAYAR & CETAK STRUK";
@@ -918,7 +849,7 @@
     window.pemicuCetakLangsung = function(idx) { eksekusiCetakPWA(riwayatPenjualan[idx]); };
 
     // ------------------------------------
-    // 10. LOGIN & SESI AKUN KASIR
+    // 10. LOGIN & SESI
     // ------------------------------------
     window.prosesLogin = function(e) {
         e.preventDefault();
@@ -926,24 +857,15 @@
         const akunValid = dataPengguna.find(user => user.id === inputId && user.pass === inputPin);
         if(akunValid) {
             kasirAktif = akunValid.nama || akunValid.id || "Utama"; peranAktif = akunValid.peran || "kasir";
-            sessionStorage.setItem('lokalcaffee_kasir', kasirAktif);
-            sessionStorage.setItem('lokalcaffee_peran', peranAktif);
+            sessionStorage.setItem('lokalcaffee_kasir', kasirAktif); sessionStorage.setItem('lokalcaffee_peran', peranAktif);
             eksekusiMasukDashboard();
         } else { document.getElementById('pesanErrorLogin').classList.remove('d-none'); document.getElementById('inputPin').value = ""; }
     };
 
     function eksekusiMasukDashboard() {
         document.getElementById('namaKasirAktif').innerText = "👤 " + kasirAktif;
-        
-        if(peranAktif === "admin") { 
-            document.getElementById('btnAturAkun').classList.remove('d-none'); 
-            document.getElementById('btnLaporan').classList.remove('d-none'); 
-            renderTabelAkun(); 
-        } else { 
-            document.getElementById('btnAturAkun').classList.add('d-none'); 
-            document.getElementById('btnLaporan').classList.add('d-none'); 
-        }
-
+        if(peranAktif === "admin") { document.getElementById('btnAturAkun').classList.remove('d-none'); document.getElementById('btnLaporan').classList.remove('d-none'); renderTabelAkun(); } 
+        else { document.getElementById('btnAturAkun').classList.add('d-none'); document.getElementById('btnLaporan').classList.add('d-none'); }
         document.getElementById('halamanLogin').style.display = "none"; document.getElementById('halamanKasirUtama').style.display = "block";
         document.getElementById('inputId').value = ""; document.getElementById('inputPin').value = ""; document.getElementById('pesanErrorLogin').classList.add('d-none');
         terapkanConfigToko(); perbaruiTampilan(); gantiModeGudang();
@@ -952,8 +874,7 @@
     window.keluarKasir = function() { 
         if(confirm("Apakah Anda ingin keluar dan mengunci layar kasir?")) { 
             sessionStorage.removeItem('lokalcaffee_kasir'); sessionStorage.removeItem('lokalcaffee_peran');
-            kasirAktif = ""; peranAktif = "";
-            document.getElementById('halamanKasirUtama').style.display = "none"; document.getElementById('halamanLogin').style.display = "flex"; 
+            kasirAktif = ""; peranAktif = ""; document.getElementById('halamanKasirUtama').style.display = "none"; document.getElementById('halamanLogin').style.display = "flex"; 
         } 
     };
     
@@ -974,30 +895,23 @@
         if (kasirAktif && peranAktif) { eksekusiMasukDashboard(); } 
         else { document.getElementById('halamanLogin').style.display = "flex"; document.getElementById('halamanKasirUtama').style.display = "none"; terapkanConfigToko(); }
     }
-
     periksaStatusSesiRefresh();
 
     // ------------------------------------
     // 11. FITUR LAPORAN & CETAK PDF
     // ------------------------------------
     window.bukaLaporan = function() {
-        document.getElementById('filterWaktuLaporan').value = 'hari';
-        gantiFilterLaporan('hari');
-        renderOpnameGudang();
+        document.getElementById('filterWaktuLaporan').value = 'hari'; gantiFilterLaporan('hari'); renderOpnameGudang();
     };
 
     window.gantiFilterLaporan = function(filter) {
-        const tbody = document.getElementById('tabelLaporanPenjualanBody');
-        tbody.innerHTML = '';
-        
+        const tbody = document.getElementById('tabelLaporanPenjualanBody'); tbody.innerHTML = '';
         const now = new Date();
         const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
         const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (now.getDay() || 7) + 1).getTime();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
 
-        let totalPendapatan = 0;
-        let itemTerjual = {}; 
-
+        let totalPendapatan = 0; let itemTerjual = {}; 
         riwayatPenjualan.forEach(nota => {
             let masukKriteria = false;
             if (filter === 'hari' && nota.notaId >= startOfToday) masukKriteria = true;
@@ -1009,62 +923,73 @@
                 totalPendapatan += nota.totalNota;
                 nota.items.forEach(item => {
                     if(!itemTerjual[item.nama]) itemTerjual[item.nama] = { qty: 0, subtotal: 0 };
-                    itemTerjual[item.nama].qty += item.jumlah;
-                    itemTerjual[item.nama].subtotal += item.subtotal;
+                    itemTerjual[item.nama].qty += item.jumlah; itemTerjual[item.nama].subtotal += item.subtotal;
                 });
             }
         });
 
-        for(let nama in itemTerjual) {
-            tbody.innerHTML += `<tr><td class="text-start fw-bold">${nama}</td><td>${itemTerjual[nama].qty}</td><td class="text-end">${formatRupiah(itemTerjual[nama].subtotal)}</td></tr>`;
-        }
-        
-        if(Object.keys(itemTerjual).length === 0) {
-            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-4">Belum ada barang terjual pada periode ini.</td></tr>`;
-        }
-        
+        for(let nama in itemTerjual) { tbody.innerHTML += `<tr><td class="text-start fw-bold">${nama}</td><td>${itemTerjual[nama].qty}</td><td class="text-end">${formatRupiah(itemTerjual[nama].subtotal)}</td></tr>`; }
+        if(Object.keys(itemTerjual).length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-4">Belum ada barang terjual pada periode ini.</td></tr>`; }
         document.getElementById('totalPendapatanLaporan').innerText = formatRupiah(totalPendapatan);
         
-        // Ubah judul laporan saat di-print
         let textPeriode = filter.toUpperCase();
-        if(filter === 'hari') textPeriode = "HARI INI";
-        else if(filter === 'minggu') textPeriode = "MINGGU INI";
-        else if(filter === 'bulan') textPeriode = "BULAN INI";
-        else if(filter === 'semua') textPeriode = "SEMUA WAKTU";
+        if(filter === 'hari') textPeriode = "HARI INI"; else if(filter === 'minggu') textPeriode = "MINGGU INI"; else if(filter === 'bulan') textPeriode = "BULAN INI"; else if(filter === 'semua') textPeriode = "SEMUA WAKTU";
         document.getElementById('judulLaporanPrint').innerText = `Laporan Penjualan - ${textPeriode}`;
     };
 
     window.renderOpnameGudang = function() {
-        const tbody = document.getElementById('tabelOpnameBody');
-        tbody.innerHTML = ''; let totalAset = 0;
-        
+        const tbody = document.getElementById('tabelOpnameBody'); tbody.innerHTML = ''; let totalAset = 0;
         daftarBarang.forEach(b => {
             let aset = b.stok * b.harga; totalAset += aset;
             tbody.innerHTML += `<tr><td class="text-start fw-bold">${b.nama}</td><td><span class="badge ${b.stok < 5 ? 'bg-danger' : 'bg-secondary'}">${b.stok}</span></td><td class="text-end text-success">${formatRupiah(aset)}</td></tr>`;
         });
-
         if(daftarBarang.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-4">Gudang kosong.</td></tr>`; }
         document.getElementById('totalAsetOpname').innerText = formatRupiah(totalAset);
     };
 
-    // FITUR CETAK KERTAS A4 UNTUK LAPORAN
     window.cetakLaporanKhusus = function() {
-        // Tambahkan tag khusus ke body untuk mentrigger CSS @media print
-        document.body.classList.add('mode-cetak-laporan');
-        window.print();
-        
-        // Lepas tag setelah selesai cetak (jeda 1 detik agar tidak patah)
+        document.body.classList.add('mode-cetak-laporan'); window.print();
         setTimeout(() => { document.body.classList.remove('mode-cetak-laporan'); }, 1000);
     };
 
     // ------------------------------------
-    // 12. SERVICE WORKER PWA
+    // 13. PENDETEKSI SCANNER FISIK (BARCODE TEMBAK)
     // ------------------------------------
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
-        });
+    document.addEventListener("keydown", function(e) {
+        const elemenAktif = document.activeElement;
+        if (elemenAktif.tagName === 'INPUT' && elemenAktif.id !== 'inputPencarianKasir' && elemenAktif.id !== 'barcodeBarang') return; 
+
+        if (e.key === 'Enter') {
+            if (ketikanBarcode.length >= 4) { e.preventDefault(); prosesBarcodeScannerFisik(ketikanBarcode); }
+            ketikanBarcode = ""; 
+        } 
+        else if (e.key.length === 1) {
+            ketikanBarcode += e.key;
+            clearTimeout(jedaKetikan);
+            jedaKetikan = setTimeout(() => { ketikanBarcode = ""; }, 50); 
+        }
+    });
+
+    function prosesBarcodeScannerFisik(kodeBarcode) {
+        if (document.getElementById('halamanKasirUtama').style.display === "block") {
+            let indexGudang = daftarBarang.findIndex(b => b.barcode === kodeBarcode);
+            if (indexGudang !== -1) {
+                let bg = daftarBarang[indexGudang]; let itemAda = keranjangBelanja.find(item => item.indexGudang === indexGudang);
+                if (itemAda) { 
+                    if ((itemAda.jumlah + 1) > bg.stok) { alert(`Stok ${bg.nama} habis!`); } else { itemAda.jumlah += 1; itemAda.subtotal = itemAda.jumlah * itemAda.harga; } 
+                } else { 
+                    if (bg.stok < 1) return alert(`Stok habis!`); keranjangBelanja.push({ indexGudang: indexGudang, nama: bg.nama, harga: bg.harga, jumlah: 1, subtotal: bg.harga }); 
+                }
+                if (navigator.vibrate) navigator.vibrate(80);
+                perbaruiTampilan(); 
+            } else { alert(`GAGAL: Barcode [${kodeBarcode}] belum terdaftar di Gudang!`); }
+        }
     }
+
+    // ------------------------------------
+    // 14. SERVICE WORKER PWA
+    // ------------------------------------
+    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(err => console.log(err)); }); }
 </script>
 </body>
 </html>
