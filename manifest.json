@@ -2,7 +2,7 @@
   "name": "kasir",
   "short_name": "kasir",
   "start_url": "./index.html",
-  "display": "standalone",
+  "display": "browser", 
   "background_color": "#ffffff",
   "theme_color": "#0d6efd",
   "orientation": "portrait",
